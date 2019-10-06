@@ -6,28 +6,12 @@ let classifier;
 // A variable to hold the image we want to classify
 let img;
 
+// set global variables
+this.theCat = "The fluffly cat will go here";
+this.blob = [];
+this.type = '';
+this.confidence = 0;
 
-function tags (tag)
-{
-
-    let type = "Not A Kitty";
-
-    switch(tag) {
-        case 'tabby, tabby cat':
-            // code block
-            return 1;
-            type = "It's A Kitty";
-            break;
-        case 'lion, king of beasts, Panthera leo':
-            // code block
-            return 2;
-            type = "It's a Big Kitty";
-            break;
-    }
-
-    return 0;
-    return type;
-}
 
 
 function getBase64(file, callback) {
@@ -41,9 +25,6 @@ function getBase64(file, callback) {
 document.getElementById("file").onchange = function() {
     upload()
 };
-
-this.theCat = "The fluffy cat will go in this garbage code here";
-this.blob = [];
 
 /**
  *
@@ -80,9 +61,10 @@ function upload()
     return false
 }
 
+/**
+ *
+ */
 function isitAKitty() {
-
-
 
     classifier = ml5.imageClassifier('MobileNet');
     // images/
@@ -95,7 +77,11 @@ function isitAKitty() {
 
 }
 
-//checks the confidence an array of lables/tags
+/**
+ * checks the confidence an array of lables/tags
+ * @param results
+ * @returns {number}
+ */
 function checkLable(results) {
     //check if it is a
     var confidence = 0;
@@ -109,33 +95,43 @@ function checkLable(results) {
 
     for (i = 0; i < results.length; i++) {
 
-        // check if lable is a kitty
+        // check if label is a kitty
         if (results[i].label === 'tabby, tabby cat'
             || results[i].label === 'Egyptian cat'
             || results[i].label === 'tiger cat') {
 
-            // code block
-            console.log(results[i].confidence);
+            // add confidence to kitty
             cat += results[i].confidence;
-            // type = "It's A Kitty";
 
-        } else if (results[i].label === 'tiger cat' || results[i].label === 'lion, king of beasts, Panthera leo' )
-        {
-
-            console.log(results[i].confidence);
+        } else if (results[i].label === 'lynx, catamount'
+            || results[i].label === 'lion, king of beasts, Panthera leo'
+        ) {
+            // add confidence to big Kitty
             bigKitty += results[i].confidence;
+        } else {
+            // add up confidence to big not a kitty
+            notAKitty += results[i].confidence;
         }
 
-
-        // text += "The number is " + i + "<br>";
-        //  if (results[i].label == tag) {
-        //    confidence += results[i].confidence
-        // }
     } //end for loop
 
+    // set label based on the confidence score
+    if (cat > bigKitty && cat > notAKitty ) {
 
+        this.type = "It is a Kitty!";
+        this.confidence = cat;
 
-    return cat
+    } else if (bigKitty > notAKitty) {
+
+        this.type = "It's a Big Kitty";
+        this.confidence = bigKitty;
+
+    } else {
+        this.type = "Not Kitty";
+        this.confidence = notAKitty;
+    }
+
+    return this.score
 }
 
 // A function to run when we get any errors and the results
@@ -148,26 +144,34 @@ function gotResult(error, results) {
         // The results are in an array ordered by confidence.
         console.log(results);
 
+        // get the confidence
         let confidence = checkLable(results);
 
         console.log(confidence);
 
+        // check swal animation popup type
+        let swalType = 'success';
+
+        if (this.type === "Not Kitty")
+        {
+            swalType = 'error';
+        }
+
+        // notify of the result
         Swal.fire({
-            title: 'It is A Kitty',
-            type: 'success',
+            title: this.type,
+            type: swalType,
             showCloseButton: false,
             showCancelButton: false,
             focusConfirm: true,
+            html:
+                'I am ' +
+                Math.round(this.confidence * 100) +
+                '% sure!',
             confirmButtonText:
                 '<i class="fa fa-thumbs-up"></i> Nifty!',
             confirmButtonAriaLabel: 'Nifty!',
         })
-
-        // console.log("test");
-
-        // document.getElementById('confidence').innerHTML = confidence;
-        // document.getElementById('answer').innerHTML = "It is a Kitty!"
-        // document.getElementById('answer').innerHTML = "Nope not a Kitty"
 
     }
 }
