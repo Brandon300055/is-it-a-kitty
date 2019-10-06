@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Is It A Kitty</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Bootstrap -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+
+    <!-- p5 -->
+    <script src="js/p5.min.js"></script>
+    <script src="js/p5.dom.min.js"></script>
+    <script src="js/p5.sound.min.js"></script>
+    <!-- ml5 -->
+    <script src="js/ml5.min.js"></script>
+
+    <!-- sweet alert -->
+    <script src="js/sweetalert2@8.js"></script>
+
+    <style>
+        body
+        {
+            background: #FFA75F;
+        }
+
+        .btn-primary {
+            color: #FFA75F;
+            background-color: #1E9DB3;
+            border-color: #1E9DB3;
+        }
+
+        .btn-primary:hover {
+            color: #FFA75F;
+            background-color: #1E9DB3;
+            border-color: #1E9DB3;
+            width: 90vw;
+        }
+
+        .swal2-confirm
+        {
+            color: #FFA75F !important;
+            background-color: #1E9DB3 !important;
+            border-color: #1E9DB3 !important;
+        }
+
+        .btn-secondary{
+            color: #1E9DB3;
+            background-color: #1E9DB300;
+            border-color: #1E9DB3;
+            border-style: dotted;
+        }
+
+        .btn-secondary:hover {
+            color: #FFA75F;
+            background-color: #1E9DB3;
+            border-color: #1E9DB3;
+            width: 90vw;
+        }
+
+        .set-to-bottom
+        {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .image
+        {
+            max-height: 45vh;
+            width: 100%;
+        }
+
+        /* background of pop up */
+        .swal2-popup {
+            background: #f1f1f1 !important;
+        }
+        #isItLoaded {
+            /*display: none;*/
+        }
+        #loading {
+            z-index: 10;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 90vh;
+        }
+        /* #FFA75F */
+        /* #1E9DB3 */
+    </style>
+</head>
+
+
+<body>
+
+<!--<div id="loading"></div>-->
+<!--<div id="isItLoaded">Let's see if it's a Kitty</div>-->
+
+<div id="content">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+<!--                <p id="answer"></p>-->
+<!--                <p id="confidence"></p>-->
+
+                <!--      <pre id="output"></pre>-->
+                <img id="image" class="image pb-4" alt=""/>
+                <input type="file" id="file" name="theInput" class="btn btn-secondary py-5 w-100 m-0">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar set-to-bottom m-0">
+        <button type="button" class="btn btn-primary w-100 m-0"
+                onclick="isitAKitty()">
+            Is it a Kitty?</button>
+    </div>
+
+</div>
+</body>
+
+<footer>
+
+    <!-- <script src="sketch.js"></script> -->
+    <script src="is-it-a-kitty.js"></script>
+</footer>
+
+</html>
